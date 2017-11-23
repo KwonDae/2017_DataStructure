@@ -1,17 +1,13 @@
 package Work10;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class HuffmanCode {
 	
 	HeapPriorityQueue queue = new HeapPriorityQueue();
 	private htree htree_arr[] = new htree[26];
-	private htree temp1, temp2,temproot;
-	Queue<Integer> arr_queue = new LinkedList<Integer>();
-	char pCode[] = new char[100];
-	private int i=0;
-	
+	private htree temp1, temp2,CompleteTree;
+	char pCode[] = new char[100];  //인코딩한 정보를 저장할 배열
+	private int i=0;  // 인코딩한 정보를 저장하기 위해 필요한 인덱스
+	private String temp = ""; //디코딩을 위해 인코딩한 데이터를 저장할 배열
 
 	public void put(char ch) {
 		if (htree_arr[ch - 'A'] == null) {
@@ -36,27 +32,28 @@ public class HuffmanCode {
 		temp1 = (htree) queue.remove();
 		temp2 = (htree) queue.remove();
 		count++;
-		temproot = new htree(temp1,temp2,tempch,temp1.freq + temp2.freq);
-		queue.add(temproot);
+		CompleteTree = new htree(temp1,temp2,tempch,temp1.freq + temp2.freq);
+		queue.add(CompleteTree);
 		}
 	}
+	
 	public htree getterRoot() {
-		return temproot;
+		return CompleteTree;
 	}
 	
-	public void all_print() {
-		huffman_code(temproot,i,pCode);
+	public void huffmancode_print() {
+		huffmancode(CompleteTree,i,pCode);
 	}
 	
-	public void huffman_code(htree tree,int i, char[] pCode) {
+	public void huffmancode(htree tree,int i, char[] pCode) {
 		i++;
 		if(tree.lchild != null ) {
 			pCode[i]='0';
-			this.huffman_code(tree.lchild,i,pCode);
+			this.huffmancode(tree.lchild,i,pCode);
 		}
 		if(tree.rchild != null) {
 			pCode[i]='1';
-			this.huffman_code(tree.rchild,i,pCode);
+			this.huffmancode(tree.rchild,i,pCode);
 		}
 		if(tree.lchild == null && tree.rchild == null) {
 			System.out.print(tree.alphabet + " : ");
@@ -67,11 +64,8 @@ public class HuffmanCode {
 		}
 	}
 	
-	public void encoding() {
-		for (int i = 0; i < 26; i++) {
-			if(htree_arr[i] != null)
-			encode(temproot,i,pCode,htree_arr[i].alphabet);
-		}
+	public void encoding(char alphabet) {
+		this.encode(CompleteTree,i,pCode,alphabet);
 	}
 	
 	public void encode(htree tree,int i, char[] pCode,char alphabet) {
@@ -84,12 +78,19 @@ public class HuffmanCode {
 			pCode[i]='1';
 			this.encode(tree.rchild,i,pCode,alphabet);
 		}
-		if(tree.lchild != null && tree.rchild != null && tree.alphabet == alphabet) {
-			for(int x=1; x<i; x++) {
-				System.out.print(pCode[x]);
-			}
+		if(tree.lchild == null && tree.rchild == null ) {
+			if(tree.alphabet == alphabet) {
+				for(int x=1; x<i;x++) {
+					System.out.print(pCode[x]);
+					temp += pCode[x];
+				}
+			}			
 		}
 		
+	}
+	
+	public void decoding() {
+		this.decode(temp,CompleteTree);
 	}
 	
 	public void decode(String S,htree tree) {
@@ -97,7 +98,22 @@ public class HuffmanCode {
 		StringBuilder sb = new StringBuilder();
 		int pos=0;
 		htree current = tree;
-		
+		char[] chars = S.toCharArray();
+		while(pos < chars.length) {
+			char c = chars[pos];
+			if( c== '0' && current.lchild != null) {
+				current = current.lchild;
+			}
+			else if( c== '1' && current.rchild != null) {
+				current = current.rchild;
+			}
+			if( current.lchild == null && current.rchild ==null) {
+				sb.append(current.alphabet);
+				current = tree;
+			}
+			pos++;
+		}
+		System.out.print(sb.toString());
 	}
 }
 	class htree implements Comparable<htree> {
