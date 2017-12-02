@@ -3,13 +3,13 @@ package Work10;
 public class HuffmanCode {
 	
 	HeapPriorityQueue queue = new HeapPriorityQueue();
-	private htree htree_arr[] = new htree[26];
+	private htree htree_arr[] = new htree[26]; //트리형 알파벳이 저장될 htree배열
 	private htree temp1, temp2,CompleteTree;
 	char pCode[] = new char[100];  //인코딩한 정보를 저장할 배열
 	private int i=0;  // 인코딩한 정보를 저장하기 위해 필요한 인덱스
 	private String temp = ""; //디코딩을 위해 인코딩한 데이터를 저장할 배열
 
-	public void put(char ch) {
+	public void put(char ch) {  // 알파벳을 입력받아 트리를 구성하기 위한 삽입메소드
 		if (htree_arr[ch - 'A'] == null) {
 			htree_arr[ch - 'A'] = new htree(null, null, ch, 0);
 			htree_arr[ch - 'A'].freq++;
@@ -17,14 +17,14 @@ public class HuffmanCode {
 			htree_arr[ch - 'A'].freq++;
 	}
 	
-	public void minheap_put() {
+	public void minheap_put() { //트리로 구성된 알파벳을 freq을 기준으로 우선순위큐에 삽입
 		for (int i = 0; i < 26; i++) {
 			if(htree_arr[i] != null)
 			queue.add(htree_arr[i]);
 		}
 	}
 	
-	public void remove() {
+	public void extraction() { //우선순위큐에서 2개씩 노드를 추출하여 BinaryTree로 구성
 		char tempch =' ';
 		int count=0;
 		int size = queue.size();
@@ -33,7 +33,7 @@ public class HuffmanCode {
 		temp2 = (htree) queue.remove();
 		count++;
 		CompleteTree = new htree(temp1,temp2,tempch,temp1.freq + temp2.freq);
-		queue.add(CompleteTree);
+		queue.add(CompleteTree); //합친걸 다시 우선순위큐에 삽입
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class HuffmanCode {
 		huffmancode(CompleteTree,i,pCode);
 	}
 	
-	public void huffmancode(htree tree,int i, char[] pCode) {
+	public void huffmancode(htree tree,int i, char[] pCode) {  //완성된 트리에  루트노드 기준으로 왼쪽은 0, 오른쪽은 1 가중치 부여
 		i++;
 		if(tree.lchild != null ) {
 			pCode[i]='0';
@@ -64,11 +64,13 @@ public class HuffmanCode {
 		}
 	}
 	
+	/////////////////////////////////////////////////////////////////////////
+	
 	public void encoding(char alphabet) {
 		this.encode(CompleteTree,i,pCode,alphabet);
 	}
 	
-	public void encode(htree tree,int i, char[] pCode,char alphabet) {
+	public void encode(htree tree,int i, char[] pCode,char alphabet) { //해당 알파벳이 있으면 인코딩을하여 출력하는 인코딩메소드
 		i++;
 		if(tree.lchild != null) {
 			pCode[i]='0';
@@ -88,6 +90,8 @@ public class HuffmanCode {
 		}
 		
 	}
+	
+	/////////////////////////////////////////////////////////////////////////
 	
 	public void decoding() {
 		this.decode(temp,CompleteTree);
@@ -116,6 +120,9 @@ public class HuffmanCode {
 		System.out.print(sb.toString());
 	}
 }
+
+	/////////////////////////////////////////////////////////////////////////
+
 	class htree implements Comparable<htree> {
 		htree lchild = null;
 		htree rchild = null;

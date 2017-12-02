@@ -25,9 +25,10 @@ public class TestHuffmanCode {
 		} catch(IOException e) { System.out.println(e); }
 		
 		huffman.minheap_put();
-		huffman.remove();
+		huffman.extraction();
 		System.out.println("*****Huffman Code*****");
 		huffman.huffmancode_print();
+		
 		System.out.println("*****4줄 인코딩*****");
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(new File("C:\\Users\\goodd\\Desktop//Caesar.txt")));
