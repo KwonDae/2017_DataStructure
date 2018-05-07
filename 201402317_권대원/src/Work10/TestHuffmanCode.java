@@ -50,7 +50,6 @@ public class TestHuffmanCode {
 		System.out.println();
 		System.out.println("*****4줄 디코딩*****");
 		huffman.decoding();
-	
 	}
 
 }

@@ -18,7 +18,7 @@ public class QuadraticProbingHashTable implements Map {
 	}
 	
 	public QuadraticProbingHashTable() {
-		this(101);
+		this(20);
 	}
 	
 	@Override
@@ -52,7 +52,8 @@ public class QuadraticProbingHashTable implements Map {
 				continue;
 			}
 			if(entry.key.equals(key)) {
-				Object oldValue = value;
+				Object oldValue = entry.value;
+				entries[j].value = value;
 				return oldValue;
 			}
 			collision++;

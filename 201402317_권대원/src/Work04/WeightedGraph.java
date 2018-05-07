@@ -68,7 +68,7 @@ public class WeightedGraph {
 			if (vertices[i].equals(v))
 				return i;
 		}
-		return a.length;
+		return a.length;	
 	}
 
 	public void dijkstra(String v) {

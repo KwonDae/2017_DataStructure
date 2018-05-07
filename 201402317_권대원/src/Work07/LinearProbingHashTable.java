@@ -18,7 +18,7 @@ public class LinearProbingHashTable implements Map {
 	}
 	
 	public LinearProbingHashTable() {
-		this(101);
+		this(20);
 	}
 	
 	@Override
@@ -52,8 +52,8 @@ public class LinearProbingHashTable implements Map {
 				continue;
 			}
 			if(entry.key.equals(key)) {
-				Object oldValue = value;
-//				entries[j].value = value;
+				Object oldValue = entry.value;
+				entries[j].value = value;
 				return oldValue;
 			}
 			collision++;

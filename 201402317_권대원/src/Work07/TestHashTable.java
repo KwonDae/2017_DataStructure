@@ -14,12 +14,12 @@ public class TestHashTable {
 		BufferedReader in = new BufferedReader(new FileReader(new File("C:\\Users\\goodd\\Desktop//Caesar.txt")));
 		String line = in.readLine();
 		while(line != null) {
-			StringTokenizer parser = new StringTokenizer(line, " ,:;-.?!");
+			StringTokenizer parser = new StringTokenizer(line, " ,:;--.?!");
 			while(parser.hasMoreTokens()) {
 				String word = parser.nextToken().toUpperCase();
-				doublehash.put(word, 1);
-				linearhash.put(word, 1);
-				quadrahash.put(word, 1);
+				doublehash.put(word, word);
+				linearhash.put(word, word);
+				quadrahash.put(word, word);
 			}
 			line = in.readLine();
 		}

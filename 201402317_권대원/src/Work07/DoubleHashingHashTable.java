@@ -21,7 +21,7 @@ public class DoubleHashingHashTable implements Map {
 	}
 	
 	public DoubleHashingHashTable() {
-		this(101);
+		this(20);
 	}
 	
 	@Override
@@ -57,7 +57,8 @@ public class DoubleHashingHashTable implements Map {
 				continue;
 			}
 			if(entry.key.equals(key)) {
-				Object oldValue = value;
+				Object oldValue = entry.value;
+				entries[j].value = value;
 				return oldValue;
 			}
 			collision++;
@@ -108,7 +109,7 @@ public class DoubleHashingHashTable implements Map {
 	}
 	
 	private int nextProbe(int h, int d, int i) {
-		return (h+d*i) % entries.length;
+		return (h+(d*i)) % entries.length;
 	}
 	
 	private void rehash() {
